@@ -4,13 +4,16 @@ from PIL import Image
 
 # Load TFLite model with fallback imports to support both local dev and Render environment
 try:
-    import tflite_runtime.interpreter as tflite
+    import ai_edge_litert.interpreter as tflite
 except ImportError:
     try:
-        import tensorflow.lite as tflite
+        import tflite_runtime.interpreter as tflite
     except ImportError:
-        import tensorflow as tf
-        tflite = tf.lite
+        try:
+            import tensorflow.lite as tflite
+        except ImportError:
+            import tensorflow as tf
+            tflite = tf.lite
 
 # Load and allocate tensors
 interpreter = tflite.Interpreter(model_path="models/model.tflite")
